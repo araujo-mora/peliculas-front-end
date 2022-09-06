@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { parseHttpError } from 'src/app/utilidades/utilidades';
+import { crearActorDTO } from '../actor';
+import { ActoresService } from '../actores.service';
 
 @Component({
   selector: 'app-crear-actor',
@@ -7,9 +11,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CrearActorComponent implements OnInit {
 
-  constructor() { }
+  errores: string[] = [];
+
+  constructor(
+    private actoresService: ActoresService,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  saveChanges(actor: crearActorDTO): void{
+    this.actoresService.add(actor).subscribe({
+      next: () => { this.router.navigate(['/actores']); },
+      error: err => { this.errores = parseHttpError(err) },
+      complete: () => {console.info('Successful'); }
+    });
   }
 
 }

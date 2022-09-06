@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { parseHttpError } from 'src/app/utilidades/utilidades';
+import { actorDTO, crearActorDTO } from '../actor';
+import { ActoresService } from '../actores.service';
 
 @Component({
   selector: 'app-editar-actor',
@@ -8,12 +11,33 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EditarActorComponent implements OnInit {
 
-  constructor( private activatedRoute: ActivatedRoute ) { }
+  modelo: actorDTO | undefined;
+  errores: string[] = [];
+
+  constructor(
+    private router: Router, 
+    private actoresService: ActoresService,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params =>{
-      console.log(params['id']);
+      this.actoresService.getById(params['id']).subscribe({
+        next: (actor: actorDTO) =>{ 
+          this.modelo = actor;
+        },
+        error: err => { this.errores = parseHttpError(err) },
+        complete: () => {console.info('Successful'); }
+      });
     });
   }
 
+  saveChanges(actor: crearActorDTO): void{
+    this.actoresService.update(this.modelo?.id, actor).subscribe({
+      next: () =>{ this.router.navigate(['/actores']); },
+      error: err => { this.errores = parseHttpError(err) },
+      complete: () => {console.info('Successful'); }
+    });
+    
+  }
 }

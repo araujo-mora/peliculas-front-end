@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ListadoGenericoComponent implements OnInit {
 
   @Input() listado :any;
+  @Input() message: string = "No hay películas para mostrar";
 
   constructor() { }
 

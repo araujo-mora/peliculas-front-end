@@ -12,7 +12,7 @@
     <ng-content select="[vacio]"></ng-content>
   </span>
   <span *ngIf="!vacio.innerHTML.trim()">
-    <p>No hay películas para mostrar</p>
+    <p>{{message}}</p>
   </span>
 </div>
 

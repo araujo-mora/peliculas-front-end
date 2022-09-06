@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { crearGeneroDTO } from '../genero';
+import { ActivatedRoute, Router } from '@angular/router';
+import { parseHttpError } from 'src/app/utilidades/utilidades';
+import { crearGeneroDTO, generoDTO } from '../genero';
+import { GenerosService } from '../generos.service';
 
 @Component({
   selector: 'app-editar-genero',
@@ -9,16 +11,33 @@ import { crearGeneroDTO } from '../genero';
 })
 export class EditarGeneroComponent implements OnInit {
 
-  modelo: crearGeneroDTO = { name: 'Acción' }
+  modelo: generoDTO | undefined;
+  errores: string[] = [];
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router, 
+    private generosService: GenerosService,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(params =>{
+      this.generosService.getById(params['id']).subscribe({
+        next: (genero: generoDTO) =>{ 
+          this.modelo = genero;
+        },
+        error: err => { this.errores = parseHttpError(err) },
+        complete: () => {console.info('Successful'); }
+      });
+    });
   }
 
-  saveForm(genero: crearGeneroDTO){
-    console.log(genero);
-    this.router.navigate(['/generos']);
+  saveChanges(genero: crearGeneroDTO): void{
+    this.generosService.update(this.modelo?.id, genero).subscribe({
+      next: () =>{ this.router.navigate(['/generos']); },
+      error: err => { this.errores = parseHttpError(err) },
+      complete: () => {console.info('Successful'); }
+    });
   }
   
 }

@@ -1,7 +1,8 @@
-<form [formGroup]="form" (submit)="saveForm()">
-    <mat-form-field>
+<app-mostrar-errores [errores]="errores"></app-mostrar-errores>
+<form (submit)="onSubmit()" [formGroup]="form">
+    <mat-form-field appearance="outline">
         <mat-label>Nombre</mat-label>
-        <input formControlName="name" matInput>
+        <input formControlName="nombre" matInput>
         <mat-error *ngIf="form.invalid">{{getErrNameField()}}</mat-error>
     </mat-form-field>
     <div>

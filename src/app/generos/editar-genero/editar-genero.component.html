@@ -1,1 +1,11 @@
-<app-formulario-genero [modelo]="modelo" (submit)="saveForm($event)"></app-formulario-genero>
+<h2>Editar género</h2>
+
+<app-formulario-genero 
+    *ngIf="!!modelo"
+    [errores]="errores" 
+    [modelo]="modelo" 
+    (save)="saveChanges($event)"
+>
+</app-formulario-genero>
+
+<mat-spinner *ngIf="!modelo"></mat-spinner>

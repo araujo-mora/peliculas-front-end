@@ -26,6 +26,7 @@ export class LandingPageComponent implements OnInit {
         precio: 300.99,
         poster: 'assets/img/Moana.jpg'
       },
+      { titulo: 'Han Solo', enCines: false, proximosEstrenos: false, generos: [1], poster: 'assets/img/Han-Solo.jpg' }
     ]
   }
 

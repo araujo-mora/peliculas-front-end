@@ -10,8 +10,10 @@ import { crearGeneroDTO } from '../genero';
 })
 export class FormularioGeneroComponent implements OnInit {
 
-  @Output() submit: EventEmitter<crearGeneroDTO> = new EventEmitter<crearGeneroDTO>();
+  @Output() save: EventEmitter<crearGeneroDTO> = new EventEmitter<crearGeneroDTO>();
   @Input() modelo:crearGeneroDTO | undefined;
+  @Input() errores: string[]= [];
+  
   form!: FormGroup;
 
   constructor( 
@@ -20,19 +22,19 @@ export class FormularioGeneroComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      name: ['', {validators: [Validators.required, Validators.minLength(3), capitalLetter()]}]
+      nombre: ['', {validators: [Validators.required, Validators.minLength(3), capitalLetter()]}]
     });
     if(this.modelo !== undefined){
       this.form.patchValue(this.modelo);
     }
   }
 
-  saveForm(){
-    this.submit.emit(this.form.value);
+  onSubmit(){
+    this.save.emit(this.form.value);
   }
 
   getErrNameField():string{
-    var field = this.form.get('name');
+    var field = this.form.get('nombre');
     if(field?.hasError('required')){
       return 'El campo es requerido';
     }

@@ -1,3 +1,8 @@
 export interface crearGeneroDTO{
-    name: string;
+    nombre: string;
+}
+
+export interface generoDTO{
+    id: number;
+    nombre: string
 }

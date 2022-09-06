@@ -1,0 +1,12 @@
+<div class="container-multiple-selector">
+    <ul>
+        <li *ngFor="let item of notSelected; let i = index" (click)="select(item,i)">{{item.value}}</li>
+    </ul>
+    <div class="div-botones">
+        <button type="button" (click)="selectAll()">>></button>
+        <button type="button" (click)="unselectAll()"><<</button>
+    </div>
+    <ul>
+        <li *ngFor="let item of selected; let i = index" (click)="unselect(item, i)">{{item.value}}</li>
+    </ul>
+</div>

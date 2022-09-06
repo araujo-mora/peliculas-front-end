@@ -1,2 +1,33 @@
 <h2>Actores</h2>
 <button mat-flat-button color="primary" routerLink="/actores/crear">Crear nuevo</button>
+
+<app-listado-generico [listado]="actores" [message]="emptylegend">
+    <ng-container contenido>
+        <table #table mat-table [dataSource]="actores" class="mat-elevation-z8 table-index">
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>Id</th>
+                <td mat-cell *matCellDef="let element">{{element.id}}</td>
+            </ng-container>
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                <td mat-cell *matCellDef="let element">{{element.nombre}}</td>
+            </ng-container>
+            <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let element">
+                    <a mat-flat-button color="primary" routerLink="/actores/editar/{{element.id}}">Editar</a>
+                    <a mat-flat-button color="warn" (confirm)="deleteRecords(element.id)"
+                    [swal]="{title: 'Confirmación', text: '¿Está seguro que desea borrar el registro?', showCancelButton: true}"
+                    >Borrar</a>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="columnsToShow"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsToShow"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 35, 50]" showFirstLastButtons
+            [length]="totalQuantity" [pageSize]="recordsToShow" (page)="updatePage($event)"
+            class="mat-elevation-z8 table-index"
+        ></mat-paginator>
+    </ng-container>
+</app-listado-generico>

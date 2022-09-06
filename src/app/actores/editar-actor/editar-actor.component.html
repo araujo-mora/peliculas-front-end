@@ -1,1 +1,11 @@
-<p>editar-actor works!</p>
+<h2>Editar actores</h2>
+
+<app-formulario-actor
+    *ngIf="!!modelo"
+    [errores]="errores"
+    [modelo]="modelo" 
+    (save)="saveChanges($event)"
+>
+</app-formulario-actor>
+
+<mat-spinner *ngIf="!modelo"></mat-spinner>
